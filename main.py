@@ -105,7 +105,7 @@ def main():
         abort_with_error('Info dialog terminated.')
 
     clock= core.Clock()
-    conf = yaml.load(open('config.yaml', encoding='utf-8'))
+    conf = yaml.load(open('config.yaml', encoding='utf-8'), Loader=yaml.SafeLoader)
     # === Scene init ===
     win = visual.Window(list(SCREEN_RES.values()), fullscr=False, monitor='testMonitor', units='pix',
                                        screen=0, color=conf['BACKGROUND_COLOR'])

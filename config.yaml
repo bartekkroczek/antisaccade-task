@@ -21,6 +21,5 @@ MASK_TIME: 10
 REACTION_KEYS: [left, right, up, down]
 REACTION_KEYS_SEP: 30
 CSI_BAND: [13, 18]
-# CSI_BAND: [10,12]
 STIM_COLOR: dimgray
 

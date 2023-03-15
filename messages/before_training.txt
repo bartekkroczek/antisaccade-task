@@ -4,4 +4,4 @@ Gdy kółko pojawi się na ekranie, jak najszybciej kieruj wzrok na przeciwną s
 się strzałka. Nie jest to łatwe, ale postaraj się.
 
 Odpowiadaj klawiszami strzałek na klawiaturze, wskazując jaką strzałkę widziałeś/aś.
-Przyciśnij SPACJĘ by rozpocząć.&quot;
+Przyciśnij SPACJĘ by rozpocząć.
