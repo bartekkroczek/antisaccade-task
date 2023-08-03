@@ -1,10 +1,11 @@
-W tym zadaniu, będziesz wskazywał kierunek jaki wskazuje mała strzałka.
+W tym zadaniu będziesz decydować, jaki kierunek wskazuje mała strzałka pojawiająca się na ekranie.
 Najpierw na środku ekranu pojawi się krzyżyk. Skieruj swój wzrok na krzyżyk.
-Następnie po lewej lub prawej stronie pojawi się czerwone kółko. NIE PATRZ NA KÓŁKO.
-Bardzo szybko po tym, po przeciwnej stronie ekranu pojawi się mała strzałka.
-Strzałka będzie wskazywać lewo, prawo, górę albo dół i szybko zniknie.
-Musisz zdążyć zobaczyć jaka strzałka została wyświetlona.
-Odpowiadaj klawiszami strzałek na klawiaturze, wskazując jaką strzałkę widziałeś/aś.
+Następnie po lewej lub prawej stronie pojawi się czerwone kółko. UWAGA: NIE PATRZ NA KÓŁKO.
+KÓŁKO może pojawić się niemal natychmiast po krzyżyku, ale może pojawić się po kilku sekundach.
+Bardzo szybko po wyświetleniu się kółka, po przeciwnej stronie ekranu, pojawi się mała strzałka i szybko zniknie.
+Strzałka będzie wskazywać jeden z czterech kierunków: lewo, prawo, górę albo dół.
+Musisz zdążyć zobaczyć, jaka strzałka została wyświetlona.
+Odpowiadaj klawiszami strzałek na klawiaturze (lewo, prawo, góra, dół) zgodnie z kierunkiem strzałki, która pojawiła się na ekranie.
 
 Najpierw czeka Cię trening zadania. 
 Przyciśnij SPACJĘ by rozpocząć.

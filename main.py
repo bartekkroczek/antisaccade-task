@@ -11,18 +11,17 @@ import yaml
 from psychopy import visual, event, logging, gui, core
 
 from misc.screen_misc import get_screen_res, get_frame_rate
-from itertools import combinations_with_replacement, product
 
 # GLOBALS
 
 
 RESULTS = list()
-RESULTS.append(['PART_ID', 'Trial_no', 'Trial_type', 'CSI', 'Stim_letter', 'Key_pressed', 'letter_choose', 'Rt', 'Corr', 'Stimulus Time'])
+RESULTS.append(['PART_ID', 'Trial_no', 'Trial_type', 'PDI', 'Stim_letter', 'Key_pressed', 'letter_choose', 'Rt', 'Corr', 'Stimulus Time'])
 
 
 @atexit.register
 def save_beh_results():
-    with open(join('results', PART_ID + '_' + str(random.choice(range(100, 1000))) + '_beh.csv'), 'w', encoding='utf-8') as beh_file:
+    with open(join('results', PART_ID + '_' + str(random.choice(range(100, 1000))) + '_beh.csv'), 'w', encoding='utf-8', newline='') as beh_file:
         beh_writer = csv.writer(beh_file)
         beh_writer.writerows(RESULTS)
     logging.flush()
@@ -107,7 +106,7 @@ def main():
     clock= core.Clock()
     conf = yaml.load(open('config.yaml', encoding='utf-8'), Loader=yaml.SafeLoader)
     # === Scene init ===
-    win = visual.Window(list(SCREEN_RES.values()), fullscr=False, monitor='testMonitor', units='pix',
+    win = visual.Window(list(SCREEN_RES.values()), fullscr=True, monitor='testMonitor', units='pix',
                                        screen=0, color=conf['BACKGROUND_COLOR'])
     event.Mouse(visible=False, newPos=None, win=win)  # Make mouse invisible
     FRAME_RATE = get_frame_rate(win)
@@ -138,10 +137,10 @@ def main():
     show_info(win, join('.', 'messages', 'hello.txt'))
     
     stim_time = conf['STIM_TIME']
-    csi_list = [conf['TRAINING_CSI']] * conf['NO_TRAINING_TRIALS'][0]
-    for csi in csi_list:
-        key_pressed, rt, stim_letter, choice, corr = run_trial(win, conf, fix_cross, csi, que, stim, clock, question_frame, question_label, mask, 30)
-        RESULTS.append([PART_ID, trial_no, 'training', csi, stim_letter, key_pressed, choice, rt, corr, 30])
+    pdi_list = [conf['TRAINING_PDI']] * conf['NO_TRAINING_TRIALS'][0]
+    for pdi in pdi_list:
+        key_pressed, rt, stim_letter, choice, corr = run_trial(win, conf, fix_cross, pdi, que, stim, clock, question_frame, question_label, mask, 30)
+        RESULTS.append([PART_ID, trial_no, 'training', pdi, stim_letter, key_pressed, choice, rt, corr, 30])
 
         feedb = "Poprawnie" if corr else "Niepoprawnie"
         feedb = visual.TextStim(win, text=feedb, height=50, color=conf['FIX_CROSS_COLOR'])
@@ -153,10 +152,10 @@ def main():
         trial_no += 1
         
     show_info(win, join('.', 'messages', 'before_training.txt'))
-    csi_list = [conf['TRAINING_CSI']] * conf['NO_TRAINING_TRIALS'][1]
-    for csi in csi_list:
-        key_pressed, rt, stim_letter, choice, corr = run_trial(win, conf, fix_cross, csi, que, stim, clock, question_frame, question_label, mask, 18)
-        RESULTS.append([PART_ID, trial_no, 'training', csi, stim_letter, key_pressed, choice, rt, corr, 18])
+    pdi_list = [conf['TRAINING_PDI']] * conf['NO_TRAINING_TRIALS'][1]
+    for pdi in pdi_list:
+        key_pressed, rt, stim_letter, choice, corr = run_trial(win, conf, fix_cross, pdi, que, stim, clock, question_frame, question_label, mask, 18)
+        RESULTS.append([PART_ID, trial_no, 'training', pdi, stim_letter, key_pressed, choice, rt, corr, 18])
 
         feedb = "Poprawnie" if corr else "Niepoprawnie"
         feedb = visual.TextStim(win, text=feedb, height=50, color=conf['FIX_CROSS_COLOR'])
@@ -172,18 +171,18 @@ def main():
     
     for _ in range(conf['NO_BLOCKS']):
         for _ in range(conf['INTRA_BLOCK_TRAINIG']):
-            csi = random.choice(range(conf['CSI_BAND'][0], conf['CSI_BAND'][1]+1))
-            key_pressed, rt, stim_letter, choice, corr = run_trial(win, conf, fix_cross, csi, que, stim, clock, question_frame, question_label, mask, stim_time)
-            RESULTS.append([PART_ID, trial_no, 'training', csi, stim_letter, key_pressed, choice, rt, corr, stim_time])
+            pdi = random.choice(range(conf['PDI_BAND'][0], conf['PDI_BAND'][1]+1, conf['PDI_BAND'][2]))
+            key_pressed, rt, stim_letter, choice, corr = run_trial(win, conf, fix_cross, pdi, que, stim, clock, question_frame, question_label, mask, stim_time)
+            RESULTS.append([PART_ID, trial_no, 'training', pdi, stim_letter, key_pressed, choice, rt, corr, stim_time])
             trial_no += 1
         
-        csi_list = list(range(conf['CSI_BAND'][0], conf['CSI_BAND'][1]+1))
-        random.shuffle(csi_list)
+        pdi_list = list(range(conf['PDI_BAND'][0], conf['PDI_BAND'][1]+1, conf['PDI_BAND'][2])) * conf['REPS_PER_BLOCK']
+        random.shuffle(pdi_list)
         corrs = list()
-        for csi in csi_list:
-            key_pressed, rt, stim_letter, choice, corr = run_trial(win, conf, fix_cross, csi, que, stim, clock, question_frame, question_label, mask, stim_time)
+        for pdi in pdi_list:
+            key_pressed, rt, stim_letter, choice, corr = run_trial(win, conf, fix_cross, pdi, que, stim, clock, question_frame, question_label, mask, stim_time)
             corrs.append(corr)
-            RESULTS.append([PART_ID, trial_no, 'experiment', csi, stim_letter, key_pressed, choice, rt, corr, stim_time])
+            RESULTS.append([PART_ID, trial_no, 'experiment', pdi, stim_letter, key_pressed, choice, rt, corr, stim_time])
             trial_no += 1
         if mean(corrs) > 0.9 and stim_time > 12:
             stim_time -= 1
@@ -199,7 +198,7 @@ def main():
     win.close()
 
 
-def run_trial(win, conf, fix_cross, CSI, que, stim, clock, question_frame, question_label, mask, stim_time):
+def run_trial(win, conf, fix_cross, PDI, que, stim, clock, question_frame, question_label, mask, stim_time):
     
     que_pos = random.choice([-conf['STIM_SHIFT'], conf['STIM_SHIFT']])
     stim.pos = [-que_pos, 0] # always on the other site
@@ -209,7 +208,7 @@ def run_trial(win, conf, fix_cross, CSI, que, stim, clock, question_frame, quest
     for _ in range(conf['FIX_CROSS_TIME']):
         fix_cross.draw()
         win.flip()
-    for _ in range(CSI):
+    for _ in range(PDI):
         win.flip()
     
     for _ in range(conf['QUE_FREQ']):
@@ -224,15 +223,19 @@ def run_trial(win, conf, fix_cross, CSI, que, stim, clock, question_frame, quest
     win.callOnFlip(clock.reset)
     event.clearEvents()
     for _ in range(stim_time):
-        stim.draw()
-        win.flip()
-
-    for _ in range(conf['MASK_TIME']):
         reaction = event.getKeys(keyList=list(conf['REACTION_KEYS']), timeStamped=clock)
         if reaction:
             break
-        mask.draw()
+        stim.draw()
         win.flip()
+    
+    if not reaction:
+        for _ in range(conf['MASK_TIME']):
+            reaction = event.getKeys(keyList=list(conf['REACTION_KEYS']), timeStamped=clock)
+            if reaction:
+                break
+            mask.draw()
+            win.flip()
 
     if not reaction:
         question_frame.draw()

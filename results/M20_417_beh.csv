@@ -1,0 +1,6 @@
+PART_ID,Trial_no,Trial_type,CSI,Stim_letter,Key_pressed,letter_choose,Rt,Corr,Stimulus Time
+M20,1,training,10,←,left,←,0.5352290999144316,True,30
+M20,2,training,10,↓,down,↓,0.6777777997776866,True,30
+M20,3,training,10,→,right,→,1.3171461997553706,True,30
+M20,4,training,10,↑,up,↑,0.45359970070421696,True,30
+M20,5,training,10,→,right,→,0.6810259995982051,True,30
